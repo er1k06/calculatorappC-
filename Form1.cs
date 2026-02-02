@@ -36,6 +36,35 @@ namespace Calculator
             textOutput.Text = "0";
             currentCalculation = "";
         }
+        private void button_percent_click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (currentCalculation.Length == 0)
+                    return;
+
+                int lastOperatorIndex = currentCalculation.LastIndexOfAny(new char[] { '+', '-', '*', '/' });
+
+                string number;
+                if (lastOperatorIndex == -1)
+                    number = currentCalculation;
+                else
+                    number = currentCalculation.Substring(lastOperatorIndex + 1);
+
+                double percentValue = double.Parse(number) / 100;
+
+                currentCalculation = (lastOperatorIndex == -1)
+                    ? percentValue.ToString()
+                    : currentCalculation.Substring(0, lastOperatorIndex + 1) + percentValue;
+
+                textOutput.Text = currentCalculation;
+            }
+            catch
+            {
+                textOutput.Text = "ERROR";
+                currentCalculation = "";
+            }
+        }
         private void button_clearEntry_click(object sender, EventArgs e)
         {
             if (currentCalculation.Length > 0)
